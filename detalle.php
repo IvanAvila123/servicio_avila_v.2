@@ -66,7 +66,7 @@ include 'template/header.php';
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-borderless" style="width:100%" id="tblClientes">
+                            <table class="table table-hover table-borderless" style="width:100%" id="tblServicio ">
                                 <thead>
                                     <tr>
                                         <th><strong>Equipo</strong></th>
