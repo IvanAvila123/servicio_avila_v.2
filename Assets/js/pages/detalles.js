@@ -18,13 +18,15 @@ document.addEventListener('DOMContentLoaded', function (){
         myModal.show();
     })
 
+    
+
     formulario_detalle.addEventListener('submit', function(){
-        if (formulario_detalle.equipo.value === '' || formulario_detalle.problema.value === '' || formulario_detalle.refacciones.value === '' || formulario_detalle.fecha.value === '' || formulario_detalle.observacion.value === '' || formulario_detalle.costo.value === '' || formulario_detalle.estatus.value === '' ) {
+        if (formulario_detalle.equipo.value === '' || formulario_detalle.problema.value === '' || formulario_detalle.refacciones.value === '' || formulario_detalle.fecha.value === '' || formulario_detalle.observacion.value === '' || formulario_detalle.costo.value === '' || formulario_detalle.estatus.value === '' || formulario_detalle.estatus.value === '' || formulario_detalle.id_cliente.value === '') {
             alertaPerzonalizada('warning', 'Todos los campos son requeridos');
             
         } else {
             const data = new FormData(frm);
-            const url = 'guardar.php';
+            const url = 'guardar_detalle.php';
 
         fetch(url, {
                 method: 'POST',
