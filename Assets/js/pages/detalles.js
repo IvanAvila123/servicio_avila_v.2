@@ -17,4 +17,31 @@ document.addEventListener('DOMContentLoaded', function (){
         formulario_detalle.reset();
         myModal.show();
     })
+
+    formulario_detalle.addEventListener('submit', function(){
+        if (formulario_detalle.equipo.value === '' || formulario_detalle.problema.value === '' || formulario_detalle.refacciones.value === '' || formulario_detalle.fecha.value === '' || formulario_detalle.observacion.value === '' || formulario_detalle.costo.value === '' || formulario_detalle.estatus.value === '' ) {
+            alertaPerzonalizada('warning', 'Todos los campos son requeridos');
+            
+        } else {
+            const data = new FormData(frm);
+            const url = 'guardar.php';
+
+        fetch(url, {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(res => {
+                alertaPerzonalizada(res.tipo, res.mensaje);
+                if (res.tipo == 'success') {
+                    frm.reset();
+                    myModal.hide();
+                    //location.reload(); // Recargar la página completa
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    })
 })
