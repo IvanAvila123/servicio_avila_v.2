@@ -1,5 +1,5 @@
-const frm = document.querySelector('#formulario');
-const btnNuevo = document.querySelector('#btnNuevo');
+const formulario_detalle = document.querySelector('#formulario_detalle');
+const btnServicio = document.querySelector('#btnServicio');
 const title = document.querySelector('#title');
 
 const modalRegistroServicio = document.querySelector("#modalRegistroServicio");
@@ -10,5 +10,11 @@ const myModal2 = new bootstrap.Modal(editarModalServicio);
 
 document.addEventListener('DOMContentLoaded', function (){
      
-    
+    btnServicio.addEventListener('click',function(){
+        title.textContent= "Nuevo Servicio"
+        formulario_detalle.id_cliente.value = '';
+        formulario_detalle.removeAttribute('readonly');
+        formulario_detalle.reset();
+        myModal.show();
+    })
 })
