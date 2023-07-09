@@ -9,7 +9,6 @@ if (isset($_GET['id'])) {
     $sql = "SELECT clientes.nombre, clientes.apellido, clientes.id, detalle.id_cliente, detalle.equipo, detalle.problema, detalle.refacciones, detalle.fecha, detalle.observacion, detalle.costo, detalle.pdf, detalle.estatus FROM clientes INNER JOIN detalle ON clientes.id = detalle.id_cliente WHERE clientes.id = '$id'";
     $query = mysqli_query($con, $sql);
 
-    // Resto del código...
 } else {
     echo "ID de cliente no proporcionado";
 }
@@ -119,7 +118,7 @@ include 'template/header.php';
                                             </div>
                                         </td>
                                     </tr>
-                                <?php } ?>
+                                
                                 </td>
                                 </tr>
                                 </tbody>
@@ -137,7 +136,8 @@ include 'template/header.php';
                                 </div>
                                 <div class="modal-body">
                                     <form id="formulario_detalle">
-                                        <input type="hidden" id="id_cliente" name="id_cliente">
+                                        <input type="text" id="id_cliente" name="id" value="<?php echo $row['id'] ?>" >
+                                        <?php } ?>
                                         <div class="row">
 
                                         <div class="col-md-6">
