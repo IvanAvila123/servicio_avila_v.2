@@ -4,15 +4,39 @@ require_once('conexion.php');
 $con = conectar();
 
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+    $id_cliente = $_GET['id'];
 
-    $sql = "SELECT clientes.nombre, clientes.apellido, clientes.id, detalle.id_cliente, detalle.equipo, detalle.problema, detalle.refacciones, detalle.fecha, detalle.observacion, detalle.costo, detalle.pdf, detalle.estatus FROM clientes INNER JOIN detalle ON clientes.id = detalle.id_cliente WHERE clientes.id = '$id'";
+    $sql = "SELECT clientes.id, detalle.id_cliente, clientes.nombre, clientes.apellido, detalle.equipo, detalle.problema, detalle.refacciones, detalle.fecha, detalle.observacion, detalle.costo, detalle.estatus 
+            FROM clientes
+            INNER JOIN detalle ON clientes.id = detalle.id_cliente
+            WHERE clientes.id = '$id_cliente'";
     $query = mysqli_query($con, $sql);
 
+    if (mysqli_num_rows($query) > 0) {
+        // Resto del código para mostrar los detalles del cliente y otros datos de la tabla detalle
+        $row = mysqli_fetch_array($query);
+        // Acceder a los campos del cliente
+        $id = $row['id'];
+        $nombre = $row['nombre'];
+        $apellido = $row['apellido'];
+
+        // Acceder a los campos de la tabla detalle
+        $id_cliente = $row['id_cliente'];
+        $equipo = $row['equipo'];
+        $problema = $row['problema'];
+        $refacciones = $row['refacciones'];
+        $fecha = $row['fecha'];
+        $observacion = $row['observacion'];
+        $costo = $row['costo'];
+        $estatus = $row['estatus'];
+    } else {
+        echo "Cliente no encontrado";
+    }
 } else {
     echo "ID de cliente no proporcionado";
 }
 ?>
+
 
 <?php
 include 'template/header.php';
@@ -54,11 +78,8 @@ include 'template/header.php';
 </div>
 
 <div class="content-body">
-    <?php
-    while ($row = mysqli_fetch_array($query)) {
-    ?>
         <div class="card-body">
-            <h3 class="text-primary m-3"><?php echo $row['nombre'] . ' ' . $row['apellido']; ?></h3>
+            <h3 class="text-primary m-3"><?php echo $nombre . ' ' . $apellido; ?></h3>
         </div>
         <div class="container-fluid">
             <div class="col-md-12">
@@ -82,17 +103,17 @@ include 'template/header.php';
                                 <tbody>
 
                                     <tr>
-                                        <td class="d-flex align-items-center"><strong><?php echo $row['equipo'] ?></strong></td>
+                                        <td class="d-flex align-items-center"><strong><?php echo $equipo ?></strong></td>
                                         <td>
-                                            <div class="d-flex align-items-center"><span class="w-space-no"><?php echo $row['problema'] ?></span></div>
+                                            <div class="d-flex align-items-center"><span class="w-space-no"><?php echo $problema ?></span></div>
                                         </td>
-                                        <td><?php echo $row['refacciones'] ?></td>
-                                        <td><?php echo $row['fecha'] ?></td>
-                                        <td><?php echo $row['observacion'] ?></td>
-                                        <td>$<?php echo $row['costo'] ?></td>
+                                        <td><?php echo $refacciones ?></td>
+                                        <td><?php echo $fecha ?></td>
+                                        <td><?php echo $observacion ?></td>
+                                        <td>$<?php echo $costo ?></td>
                                         <td>
                                             <?php
-                                            $estatus = $row['estatus']; // Obtén el valor del estatus desde tu fuente de datos
+                                            $estatus = $estatus; // Obtén el valor del estatus desde tu fuente de datos
 
                                             // Determina la clase de Bootstrap según el estatus
                                             if ($estatus == 'completado') {
@@ -106,19 +127,18 @@ include 'template/header.php';
                                             }
                                             ?>
                                             <div class="d-flex align-items-center">
-                                                <i class="fa fa-circle <?php echo $colorClass; ?> me-1"></i> <?php echo $row['estatus'] ?>
+                                                <i class="fa fa-circle <?php echo $colorClass; ?> me-1"></i> <?php $estatus ?>
                                             </div>
 
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <button class="btn btn-primary shadow btn-xs sharp me-1 btnEditarServicio" data-id="<?php echo $row['id_cliente']; ?>"><i class="fas fa-pencil-alt"></i></button>
-                                                <button href="#" class="btn btn-danger shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $row['id_cliente']; ?>"><i class="fa fa-trash"></i></button>
-                                                <button href="#" class="btn btn-primary shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $row['id_cliente']; ?>"><i class="fas fa-file-pdf"></i></button>
+                                                <button class="btn btn-primary shadow btn-xs sharp me-1 btnEditarServicio" data-id="<?php echo $id_cliente; ?>"><i class="fas fa-pencil-alt"></i></button>
+                                                <button href="#" class="btn btn-danger shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $id_cliente; ?>"><i class="fa fa-trash"></i></button>
+                                                <button href="#" class="btn btn-primary shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $id_cliente; ?>"><i class="fas fa-file-pdf"></i></button>
                                             </div>
                                         </td>
                                     </tr>
-                                
                                 </td>
                                 </tr>
                                 </tbody>
@@ -131,95 +151,107 @@ include 'template/header.php';
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="title"></h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                    </button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="formulario_detalle">
-                                        <input type="text" id="id_cliente" name="id" value="<?php echo $row['id'] ?>" >
-                                        <?php } ?>
-                                        <div class="row">
+                                    <?php
 
-                                        <div class="col-md-6">
-                                                <label for="equipo">Equipo</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="material-icons">build</i></span>
-                                                    <input class="form-control" type="text" id="equipo" name="equipo" placeholder="Equipo" required>
+                                    if (isset($_GET['id'])) {
+                                        $id_cliente = $_GET['id'];
+
+                                        $sql = "SELECT * FROM detalle WHERE id_cliente = '$id_cliente'";
+                                        $query = mysqli_query($con, $sql);
+
+                                        if ($row = mysqli_fetch_array($query)) {
+                                    ?>
+                                            <form id="formulario_detalle">
+                                                <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $row['id']; ?>">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="equipo">Equipo</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="material-icons">build</i></span>
+                                                            <input class="form-control" type="text" id="equipo" name="equipo" placeholder="Equipo" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="problema">Problema</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="material-icons">report_problem</i></span>
+                                                            <input class="form-control" type="text" id="problema" name="problema" placeholder="Problema" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="refacciones">Refacciones</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="material-icons">engineering</i></span>
+                                                            <input class="form-control" type="text" id="refacciones" name="refacciones" placeholder="Refacciones" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label for="fecha">Fecha</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="material-icons">calendar_month</i></span>
+                                                            <input class="form-control" type="date" id="fecha" name="fecha" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="observacion">Observación</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="material-icons">error_outline</i></span>
+                                                            <input class="form-control" type="text" id="observacion" name="observacion" placeholder="Observación" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="costo">Costo</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="material-icons">paid</i></span>
+                                                            <input class="form-control" type="text" id="costo" name="costo" placeholder="Costo" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label for="estatus">Estatus</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text"><i class="material-icons">location_on</i></span>
+                                                            <select class="form-control" id="estatus" name="estatus" required>
+                                                                <?php
+                                                                $enumOptions = ['completado', 'pendiente', 'cancelado']; // Reemplaza con las opciones de tu ENUM
+
+                                                                foreach ($enumOptions as $option) {
+                                                                    echo "<option value='" . $option . "'>" . $option . "</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-6">
-                                                <label for="problema">Problema</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="material-icons">report_problem</i></span>
-                                                    <input class="form-control" type="text" id="problema" name="problema" placeholder="problema" required>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cerrar</button>
+                                                    <button type="submit" class="btn btn-primary">Guardar Servicio</button>
                                                 </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label for="refacciones">Refacciones</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="material-icons">engineering</i></span>
-                                                    <input class="form-control" type="refacciones" id="refacciones" name="refacciones" placeholder="refacciones" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <label for="fecha">Fecha</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="material-icons">calendar_month</i></span>
-                                                    <input class="form-control" type="date" id="fecha" name="fecha" placeholder="Fecha" required>
-                                                </div>
-                                            </div>
-
-
-
-                                        </div>
-
-                                        <div class="col-md-6">
-                                                <label for="observacion">observacion</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="material-icons">error_outline</i></span>
-                                                    <input class="form-control" type="text" id="observacion" name="observacion" placeholder="observacion" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label for="costo">Costo</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="material-icons">paid</i></span>
-                                                    <input class="form-control" type="text" id="costo" name="costo" placeholder="Costo" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <label for="estatus">Estatus</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="material-icons">location_on</i></span>
-                                                    <select class="form-control" id="estatus" name="estatus" required>
-                                                        <?php
-                                                        $enumOptions = ['completado', 'pendiente', 'cancelado']; // Reemplaza con las opciones de tu ENUM
-
-                                                        foreach ($enumOptions as $option) {
-                                                            echo "<option value='" . $option . "'>" . $option . "</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-
-                                                </div>
-                                            </div>
-
-
-
+                                            </form>
+                                    <?php
+                                        } else {
+                                            echo "Cliente no encontrado";
+                                        }
+                                    } else {
+                                        echo "ID de cliente no proporcionado";
+                                    }
+                                    ?>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Guardar Servicio</button>
-                                </div>
-                                </form>
                             </div>
                         </div>
                     </div>
+
+
 
 
                     <div id="editarModalServicio" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">

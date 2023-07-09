@@ -163,7 +163,7 @@ $query = mysqli_query($con, $sql);
             </div>
             <div class="modal-body">
                 <form id="formulario">
-                    <input type="hidden" id="id_cliente" name="id">
+                    <input type="hidden" id="id" name="id">
                     <div class="row">
 
                         <div class="col-md-6">

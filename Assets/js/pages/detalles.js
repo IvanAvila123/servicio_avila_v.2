@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function (){
             alertaPerzonalizada('warning', 'Todos los campos son requeridos');
             
         } else {
-            const data = new FormData(frm);
+            const data = new FormData(formulario_detalle);
             const url = 'guardar_detalle.php';
 
         fetch(url, {
