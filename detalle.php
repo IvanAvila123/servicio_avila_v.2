@@ -4,14 +4,14 @@ require_once('conexion.php');
 $con = conectar();
 
 if (isset($_GET['id'])) {
-  $id = $_GET['id'];
+    $id = $_GET['id'];
 
-  $sql = "SELECT clientes.nombre, clientes.apellido, clientes.id, detalle.id_cliente, detalle.equipo, detalle.problema, detalle.refacciones, detalle.fecha, detalle.observacion, detalle.costo, detalle.pdf, detalle.estatus FROM clientes INNER JOIN detalle ON clientes.id = detalle.id_cliente WHERE clientes.id = '$id'";
-  $query = mysqli_query($con, $sql);
+    $sql = "SELECT clientes.nombre, clientes.apellido, clientes.id, detalle.id_cliente, detalle.equipo, detalle.problema, detalle.refacciones, detalle.fecha, detalle.observacion, detalle.costo, detalle.pdf, detalle.estatus FROM clientes INNER JOIN detalle ON clientes.id = detalle.id_cliente WHERE clientes.id = '$id'";
+    $query = mysqli_query($con, $sql);
 
-  // Resto del código...
+    // Resto del código...
 } else {
-  echo "ID de cliente no proporcionado";
+    echo "ID de cliente no proporcionado";
 }
 ?>
 
@@ -127,8 +127,6 @@ include 'template/header.php';
                         </div>
                     </div>
 
-
-
                     <div id="modalRegistroServicio" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -142,7 +140,7 @@ include 'template/header.php';
                                         <input type="hidden" id="id_cliente" name="id_cliente">
                                         <div class="row">
 
-                                            <div class="col-md-6">
+                                        <div class="col-md-6">
                                                 <label for="equipo">Equipo</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="material-icons">build</i></span>
@@ -174,7 +172,11 @@ include 'template/header.php';
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+
+
+                                        </div>
+
+                                        <div class="col-md-6">
                                                 <label for="observacion">observacion</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="material-icons">error_outline</i></span>
@@ -203,97 +205,92 @@ include 'template/header.php';
                                                         }
                                                         ?>
                                                     </select>
+
+                                                </div>
+                                            </div>
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar Servicio</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="editarModalServicio" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="title"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="formularioEditar">
+                                        <input type="hidden" id="id_cliente_editar" name="id">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="nombre">Nombre</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="material-icons">format_list_bulleted</i></span>
+                                                    <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="apellido">Apellido</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="material-icons">format_list_bulleted</i></span>
+                                                    <input class="form-control" type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="telefono">Telefono</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="material-icons">phone</i></span>
+                                                    <input class="form-control" type="number" id="telefono" name="telefono" placeholder="Telefono" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="domicilio">Domicilio</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="material-icons">location_on</i></span>
+                                                    <input class="form-control" type="text" id="domicilio" name="domicilio" placeholder="Direccion" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <label for="estatus">Estatus</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="material-icons">location_on</i></span>
+                                                    <select class="form-control" id="estatus" name="estatus" required>
+                                                        <?php
+                                                        $enumOptions = ['completado', 'pendiente', 'cancelado']; // Reemplaza con las opciones de tu ENUM
+
+                                                        foreach ($enumOptions as $option) {
+                                                            echo "<option value='" . $option . "'>" . $option . "</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                 </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar Cliente</button>
-            </div>
-            </form>
-        </div>
-</div>
-</div>
-
-<div id="editarModalServicio" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="title"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formularioEditar">
-                    <input type="hidden" id="id_cliente_editar" name="id">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="nombre">Nombre</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="material-icons">format_list_bulleted</i></span>
-                                <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="apellido">Apellido</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="material-icons">format_list_bulleted</i></span>
-                                <input class="form-control" type="text" id="apellido" name="apellido" placeholder="Apellido" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="telefono">Telefono</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="material-icons">phone</i></span>
-                                <input class="form-control" type="number" id="telefono" name="telefono" placeholder="Telefono" required>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <label for="domicilio">Domicilio</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="material-icons">location_on</i></span>
-                                <input class="form-control" type="text" id="domicilio" name="domicilio" placeholder="Direccion" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <label for="estatus">Estatus</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="material-icons">location_on</i></span>
-                                <select class="form-control" id="estatus" name="estatus" required>
-                                    <?php
-                                    $enumOptions = ['completado', 'pendiente', 'cancelado']; // Reemplaza con las opciones de tu ENUM
-
-                                    foreach ($enumOptions as $option) {
-                                        echo "<option value='" . $option . "'>" . $option . "</option>";
-                                    }
-                                    ?>
-                                </select>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar Cliente</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 
 
 
-<?php
-include 'template/footer.php';
-?>
+                    <?php
+                    include 'template/footer.php';
+                    ?>
