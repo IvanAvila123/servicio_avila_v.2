@@ -12,12 +12,25 @@ if (isset($_GET['id'])) {
             WHERE c.id = '$id'";
     $query = mysqli_query($con, $sql);
 
-    // Resto del código para procesar el resultado de la consulta
+    if ($query) {
+        // Verificar si se obtuvo un resultado válido
+        if (mysqli_num_rows($query) > 0) {
+            $cliente_info = mysqli_fetch_assoc($query);
+
+            // Resto del código para procesar los datos del cliente y mostrarlos
+            echo '<h3 class="text-primary m-3">' . $cliente_info['nombre'] . ' ' . $cliente_info['apellido'] . '</h3>';
+        } else {
+            echo "No se encontró el cliente con el ID proporcionado";
+        }
+    } else {
+        echo "Error al ejecutar la consulta SQL";
+    }
 } else {
     echo "ID de cliente no proporcionado";
 }
-
 ?>
+
+
 
 
 <?php
@@ -100,14 +113,14 @@ include 'template/header.php';
                                         <td>$<?php echo $row['costo'] ?></td>
                                         <td>
                                             <?php
-                                            $estatus = $row['estatus_detalle']; // Obtén el valor del estatus desde tu fuente de datos
+                                            $estatus_detalle = $row['estatus_detalle']; // Obtén el valor del estatus desde tu fuente de datos
 
                                             // Determina la clase de Bootstrap según el estatus
-                                            if ($estatus == 'completado') {
+                                            if ($estatus_detalle == 'completado') {
                                                 $colorClass = 'text-success'; // Verde
-                                            } elseif ($estatus == 'pendiente') {
+                                            } elseif ($estatus_detalle == 'pendiente') {
                                                 $colorClass = 'text-warning'; // Naranja
-                                            } elseif ($estatus == 'cancelado') {
+                                            } elseif ($estatus_detalle == 'cancelado') {
                                                 $colorClass = 'text-danger'; // Rojo
                                             } else {
                                                 $colorClass = ''; // Clase por defecto xsi no se cumple ninguna condición

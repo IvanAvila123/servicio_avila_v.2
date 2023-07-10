@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Guardar el nombre único del archivo PDF en la base de datos
         $pdf = $nombreUnico;
 
-        $stmt = $con->prepare("INSERT INTO detalle (equipo, problema, refacciones, fecha, observacion, costo, estatus_cliente, id_cliente, pdf) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param('ssssssiss', $equipo, $problema, $refacciones, $fecha, $observacion, $costo, $estatus_cliente, $id_cliente, $pdf);
+        $stmt = $con->prepare("INSERT INTO detalle (equipo, problema, refacciones, fecha, observacion, costo, estatus_detalle, id_cliente, pdf) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('sssssssss', $equipo, $problema, $refacciones, $fecha, $observacion, $costo, $estatus_detalle, $id_cliente, $pdf);
 
         if ($stmt->execute()) {
             $response = array('tipo' => 'success', 'mensaje' => 'Servicio registrado exitosamente');

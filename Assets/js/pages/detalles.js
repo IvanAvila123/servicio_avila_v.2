@@ -1,4 +1,4 @@
-const formulario_detalle = document.querySelector('#formulario_detalle');
+const frmDetalle = document.querySelector('#formulario_detalle');
 const btnServicio = document.querySelector('#btnServicio');
 const title = document.querySelector('#title');
 
@@ -12,39 +12,39 @@ document.addEventListener('DOMContentLoaded', function (){
      
     btnServicio.addEventListener('click',function(){
         title.textContent= "Nuevo Servicio"
-        formulario_detalle.id_cliente.value = '';
-        formulario_detalle.removeAttribute('readonly');
-        formulario_detalle.reset();
+        frmDetalle.id_cliente.value = '';
+        frmDetalle.removeAttribute('readonly');
+        frmDetalle.reset();
         myModal.show();
     })
 
     
 
-    formulario_detalle.addEventListener('submit', function(){
-        if (document.getElementById('estatus_cliente').value === '' || formulario_detalle.equipo.value === '' || formulario_detalle.problema.value === '' || formulario_detalle.refacciones.value === '' || formulario_detalle.fecha.value === '' || formulario_detalle.observacion.value === '' || formulario_detalle.costo.value === '' || formulario_detalle.id_cliente.value === '') 
-            {
-            alertaPerzonalizada('warning', 'Todos los campos son requeridos');
-            
-        } else {
-            const data = new FormData(formulario_detalle);
-            const url = 'guardar_detalle.php';
+    frmDetalle.addEventListener('submit', function() {
+    
 
-        fetch(url, {
-                method: 'POST',
-                body: data
-            })
-            .then(response => response.json())
-            .then(res => {
-                alertaPerzonalizada(res.tipo, res.mensaje);
-                if (res.tipo == 'success') {
-                    formulario_detalle.reset();
-                    myModal.hide();
-                    //location.reload(); // Recargar la página completa
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        if (frmDetalle.equipo.value === '' || frmDetalle.problema.value === '' || frmDetalle.refacciones.value === '' || frmDetalle.fecha.value === '' || frmDetalle.observacion.value === ''|| frmDetalle.costo.value === '' || frmDetalle.estatus_detalle.value === '') {
+            alertaPerzonalizada('warning', 'Todos los campos son requeridos');
+        } else {
+            const data = new FormData(frm);
+            const url = 'guardar_detalle.php';
+    
+            fetch(url, {
+                    method: 'POST',
+                    body: data
+                })
+                .then(response => response.json())
+                .then(res => {
+                    alertaPerzonalizada(res.tipo, res.mensaje);
+                    if (res.tipo == 'success') {
+                        frmDetalle.reset();
+                        myModal.hide();
+                        //location.reload(); // Recargar la página completa
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
-    })
+    });
 })
