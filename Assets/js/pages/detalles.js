@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function (){
     
 
     formulario_detalle.addEventListener('submit', function(){
-        if (formulario_detalle.equipo.value === '' || formulario_detalle.problema.value === '' || formulario_detalle.refacciones.value === '' || formulario_detalle.fecha.value === '' || formulario_detalle.observacion.value === '' || formulario_detalle.costo.value === '' || formulario_detalle.estatus.value === '' || formulario_detalle.estatus.value === '' || formulario_detalle.id_cliente.value === '') {
+        if (document.getElementById('estatus_cliente').value === '' || formulario_detalle.equipo.value === '' || formulario_detalle.problema.value === '' || formulario_detalle.refacciones.value === '' || formulario_detalle.fecha.value === '' || formulario_detalle.observacion.value === '' || formulario_detalle.costo.value === '' || formulario_detalle.id_cliente.value === '') 
+            {
             alertaPerzonalizada('warning', 'Todos los campos son requeridos');
             
         } else {
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function (){
             .then(res => {
                 alertaPerzonalizada(res.tipo, res.mensaje);
                 if (res.tipo == 'success') {
-                    frm.reset();
+                    formulario_detalle.reset();
                     myModal.hide();
                     //location.reload(); // Recargar la página completa
                 }
