@@ -1,35 +1,15 @@
 <?php
-include("conexion.php");
+require_once('conexion.php');
+
 $con = conectar();
+$id = $_GET['id'];
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-
-    // Utilizar el valor de $id en la consulta SQL
-    $sql = "SELECT d.*, c.nombre, c.apellido 
-            FROM detalle d 
-            LEFT JOIN clientes c ON d.id_cliente = c.id 
-            WHERE c.id = '$id'";
-    $query = mysqli_query($con, $sql);
-
-    if ($query) {
-        // Verificar si se obtuvo un resultado válido
-        if (mysqli_num_rows($query) > 0) {
-            $cliente_info = mysqli_fetch_assoc($query);
-
-            // Resto del código para procesar los datos del cliente y mostrarlos
-            echo '<h3 class="text-primary m-3">' . $cliente_info['nombre'] . ' ' . $cliente_info['apellido'] . '</h3>';
-        } else {
-            echo "No se encontró el cliente con el ID proporcionado";
-        }
-    } else {
-        echo "Error al ejecutar la consulta SQL";
-    }
-} else {
-    echo "ID de cliente no proporcionado";
-}
+$sql = "SELECT d.id_expediente, d.equipo, d.problema, d.refacciones, d.fecha, d.observacion, d.costo, d.pdf, d.estatus_detalle, d.id_cliente, c.nombre, c.apellido
+FROM detalle d
+INNER JOIN clientes c ON d.id_cliente = c.id
+WHERE d.id_expediente = $id";
+$query = mysqli_query($con, $sql);
 ?>
-
 
 
 
@@ -99,8 +79,10 @@ include 'template/header.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                while ($row = mysqli_fetch_array($query)) {
+                            <?php
+                                // Realizar una nueva consulta para obtener los detalles
+                                $detalle_query = mysqli_query($con, "SELECT * FROM detalle WHERE id_expediente = '$id'");
+                                while ($row = mysqli_fetch_array($detalle_query)) {
                                 ?>
                                     <tr>
                                         <td class="d-flex align-items-center"><strong><?php echo $row['equipo'] ?></strong></td>
