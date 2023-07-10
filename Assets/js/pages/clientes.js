@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('#editarModal input[name="apellido"]').value = data.apellido;
             document.querySelector('#editarModal input[name="telefono"]').value = data.telefono;
             document.querySelector('#editarModal input[name="domicilio"]').value = data.domicilio;
-            document.querySelector('#editarModal select[name="estatus_cliente"] option[value="' + data.estatus + '"]').selected = true;
+            document.querySelector('#editarModal select[name="estatus"] option[value="' + data.estatus + '"]').selected = true;
             $('#editarModal').modal('show'); // Mostrar el modal utilizando jQuery
         })
         .catch(error => {
