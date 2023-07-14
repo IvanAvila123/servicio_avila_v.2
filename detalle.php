@@ -1,14 +1,14 @@
 <?php
-require_once('conexion.php');
-
+error_reporting(0);
+include("conexion.php");
 $con = conectar();
+
 $id = $_GET['id'];
 
-$sql = "SELECT d.id_expediente, d.equipo, d.problema, d.refacciones, d.fecha, d.observacion, d.costo, d.pdf, d.estatus_detalle, d.id_cliente, c.nombre, c.apellido
-FROM detalle d
-INNER JOIN clientes c ON d.id_cliente = c.id
-WHERE d.id_expediente = $id";
+$sql = "SELECT * FROM clientes WHERE id='$id'";
 $query = mysqli_query($con, $sql);
+
+$row = mysqli_fetch_array($query);
 ?>
 
 
@@ -53,11 +53,9 @@ include 'template/header.php';
 </div>
 
 <div class="content-body">
+    <div class="alert-container"></div>
     <div class="card-body">
-        <?php
-        $cliente_info = mysqli_fetch_array($query);
-        ?>
-        <h3 class="text-primary m-3"><?php echo $cliente_info['nombre'] . ' ' . $cliente_info['apellido']; ?></h3>
+        <h3 class="text-primary m-3"><?php echo $row['nombre'] . ' ' . $row['apellido']; ?></h3>
     </div>
     <div class="container-fluid">
         <div class="col-md-12">
@@ -79,10 +77,14 @@ include 'template/header.php';
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
-                                // Realizar una nueva consulta para obtener los detalles
-                                $detalle_query = mysqli_query($con, "SELECT * FROM detalle WHERE id_expediente = '$id'");
+                                <?php
+                                $id_cliente = $_GET['id'];
+                                $detalle_query = mysqli_query($con, "SELECT detalle.*
+    FROM detalle
+    INNER JOIN clientes ON detalle.id_cliente = clientes.id
+    WHERE clientes.id = '$id_cliente'");
                                 while ($row = mysqli_fetch_array($detalle_query)) {
+                                    // Resto de tu código aquí
                                 ?>
                                     <tr>
                                         <td class="d-flex align-items-center"><strong><?php echo $row['equipo'] ?></strong></td>
@@ -95,23 +97,21 @@ include 'template/header.php';
                                         <td>$<?php echo $row['costo'] ?></td>
                                         <td>
                                             <?php
-                                            $estatus_detalle = $row['estatus_detalle']; // Obtén el valor del estatus desde tu fuente de datos
+                                            $estatus_detalle = $row['estatus_detalle'];
 
-                                            // Determina la clase de Bootstrap según el estatus
                                             if ($estatus_detalle == 'completado') {
-                                                $colorClass = 'text-success'; // Verde
+                                                $colorClass = 'text-success';
                                             } elseif ($estatus_detalle == 'pendiente') {
-                                                $colorClass = 'text-warning'; // Naranja
+                                                $colorClass = 'text-warning';
                                             } elseif ($estatus_detalle == 'cancelado') {
-                                                $colorClass = 'text-danger'; // Rojo
+                                                $colorClass = 'text-danger';
                                             } else {
-                                                $colorClass = ''; // Clase por defecto xsi no se cumple ninguna condición
+                                                $colorClass = '';
                                             }
                                             ?>
                                             <div class="d-flex align-items-center">
                                                 <i class="fa fa-circle <?php echo $colorClass; ?> me-1"></i> <?php echo $row['estatus_detalle'] ?>
                                             </div>
-
                                         </td>
                                         <td>
                                             <div class="d-flex">
@@ -120,8 +120,6 @@ include 'template/header.php';
                                                 <button href="#" class="btn btn-primary shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $row['id_expediente']; ?>"><i class="fas fa-file-pdf"></i></button>
                                             </div>
                                         </td>
-                                    </tr>
-                                    </td>
                                     </tr>
                                 <?php
                                 }

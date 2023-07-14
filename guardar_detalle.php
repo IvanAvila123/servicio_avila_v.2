@@ -42,17 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param('sssssssss', $equipo, $problema, $refacciones, $fecha, $observacion, $costo, $estatus_detalle, $id_cliente, $pdf);
 
         if ($stmt->execute()) {
-            $response = array('tipo' => 'success', 'mensaje' => 'Servicio registrado exitosamente');
+            $res = array('tipo' => 'success', 'mensaje' => 'Servicio registrado exitosamente');
         } else {
-            $response = array('tipo' => 'error', 'mensaje' => 'Error al registrar el Servicio');
+            $res = array('tipo' => 'error', 'mensaje' => 'Error al registrar el Servicio');
         }
-    } else {
-        $response = array('tipo' => 'error', 'mensaje' => 'Error al cargar el archivo PDF');
     }
-} else {
-    $response = array('tipo' => 'error', 'mensaje' => 'No se ha enviado el formulario');
 }
 
-echo json_encode($response);
+echo json_encode($res, JSON_UNESCAPED_UNICODE);
+die();
 ?>
+
 

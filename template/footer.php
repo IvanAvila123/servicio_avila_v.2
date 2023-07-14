@@ -29,8 +29,9 @@
 	<script type="text/javascript" src="Assets/vendor/DataTables/datatables.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src= "Assets/js/custom.js" ></script>
+	<script src="Assets\js\pages\detalles.js"></script>	
 	<script src="Assets\js\pages\clientes.js"></script>
-	<script src="Assets\js\pages\detalles.js"></script>		
+		
 	
 </body>
 </html>
