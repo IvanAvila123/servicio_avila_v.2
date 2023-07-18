@@ -44,7 +44,7 @@ include 'template/header.php';
                     </li>
 
                     <li class="nav-item">
-                        <a href="javascript:void(0);" class="btn btn-primary d-sm-inline-block d-none">Generar Orden<i class="las la-signal ms-3 scale5"></i></a>
+                    <a href="orden.pdf" target="_blank" class="btn btn-primary d-sm-inline-block d-none">Generar Orden<i class="las la-signal ms-3 scale5"></i></a>
                     </li>
                 </ul>
             </div>
@@ -139,7 +139,7 @@ include 'template/header.php';
                             </div>
                             <div class="modal-body">
                                 <form id="formulario_detalle" enctype="multipart/form-data" action="guardar_detalle.php" method="POST">
-                                    <input type="text" id="id_cliente" name="id_cliente" value="<?php echo $id; ?>">
+                                    <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $id; ?>">
 
                                     <div class="row">
                                         <div class="col-md-6">
