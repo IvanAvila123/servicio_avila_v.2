@@ -44,7 +44,7 @@ include 'template/header.php';
                     </li>
 
                     <li class="nav-item">
-                    <a href="orden.pdf" target="_blank" class="btn btn-primary d-sm-inline-block d-none">Generar Orden<i class="las la-signal ms-3 scale5"></i></a>
+                        <a href="orden.pdf" target="_blank" class="btn btn-primary d-sm-inline-block d-none">Generar Orden<i class="las la-signal ms-3 scale5"></i></a>
                     </li>
                 </ul>
             </div>
@@ -115,9 +115,20 @@ include 'template/header.php';
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <button class="btn btn-primary shadow btn-xs sharp me-1 btnEditarServicio" data-id="<?php echo $row['id_expediente']; ?>"><i class="fas fa-pencil-alt"></i></button>
-                                                <button href="#" class="btn btn-danger shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $row['id_expediente']; ?>"><i class="fa fa-trash"></i></button>
-                                                <button href="#" class="btn btn-primary shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $row['id_expediente']; ?>"><i class="fas fa-file-pdf"></i></button>
+                                                <button class="btn btn-primary shadow btn-xs sharp me-1 btnEditarServicio" data-id="<?php echo $id; ?>"><i class="fas fa-pencil-alt"></i></button>
+                                                <button href="#" class="btn btn-danger shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $row['id']; ?>"><i class="fa fa-trash"></i></button>
+                                                <?php
+
+                                                // Ruta de la carpeta donde se almacenan los archivos PDF
+                                                $carpetaPDFs = "pdfs/";
+
+                                                // Obtener el nombre del archivo PDF para el botón
+                                                $nombrePDF = $row['pdf'];
+
+                                                // Generar la URL completa del PDF
+                                                $urlPDF = $carpetaPDFs . $nombrePDF;
+                                                ?>
+                                                <a href="<?php echo $urlPDF; ?>" target="_blank" class="btn btn-primary shadow btn-xs me-1 sharp"><i class="fas fa-file-pdf"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -237,36 +248,65 @@ include 'template/header.php';
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="formularioEditar">
-                                    <input type="hidden" id="id_cliente_editar" name="id">
+                                <form id="formularioEditarServicio">
+                                    <input type="hidden" id="id_cliente_editar_servicio" name="id">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label for="nombre">Nombre</label>
+                                            <label for="equipo">Equipo</label>
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="material-icons">format_list_bulleted</i></span>
-                                                <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+                                                <span class="input-group-text"><i class="material-icons">build</i></span>
+                                                <input class="form-control" type="text" id="equipo" name="equipo" placeholder="Equipo" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="apellido">Apellido</label>
+                                            <label for="problema">Problema</label>
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="material-icons">format_list_bulleted</i></span>
-                                                <input class="form-control" type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+                                                <span class="input-group-text"><i class="material-icons">report_problem</i></span>
+                                                <input class="form-control" type="text" id="problema" name="problema" placeholder="Problema" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="telefono">Telefono</label>
+                                            <label for="refacciones">Refacciones</label>
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="material-icons">phone</i></span>
-                                                <input class="form-control" type="number" id="telefono" name="telefono" placeholder="Telefono" required>
+                                                <span class="input-group-text"><i class="material-icons">engineering</i></span>
+                                                <input class="form-control" type="text" id="refacciones" name="refacciones" placeholder="Refacciones" required>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <label for="domicilio">Domicilio</label>
+                                        <div class="col-md-6">
+                                            <label for="fecha">Fecha</label>
                                             <div class="input-group">
-                                                <span class="input-group-text"><i class="material-icons">location_on</i></span>
-                                                <input class="form-control" type="text" id="domicilio" name="domicilio" placeholder="Direccion" required>
+                                                <span class="input-group-text"><i class="material-icons">calendar_month</i></span>
+                                                <input class="form-control" type="date" id="fecha" name="fecha" required>
                                             </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="observacion">Observación</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="material-icons">error_outline</i></span>
+                                                <input class="form-control" type="text" id="observacion" name="observacion" placeholder="Observación" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="costo">Costo</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="material-icons">paid</i></span>
+                                                <input class="form-control" type="text" id="costo" name="costo" placeholder="Costo" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="costo">PDF</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="material-icons">pdf</i></span>
+                                                <input class="form-control" type="file" id="pdf" name="archivo_pdf" placeholder="pdf" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <input type="text" id="archivo_pdf_nombre" name="archivo_pdf_nombre" readonly>
+                                            <button type="button" id="seleccionarArchivoBtn">Seleccionar archivo</button>
                                         </div>
 
                                         <div class="col-md-12">
