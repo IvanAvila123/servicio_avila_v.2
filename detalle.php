@@ -296,24 +296,12 @@ include 'template/header.php';
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <label for="costo">PDF</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text"><i class="material-icons">pdf</i></span>
-                                                <input class="form-control" type="file" id="pdf" name="archivo_pdf" placeholder="pdf" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <input type="text" id="archivo_pdf_nombre" name="archivo_pdf_nombre" readonly>
-                                            <button type="button" id="seleccionarArchivoBtn">Seleccionar archivo</button>
-                                        </div>
 
                                         <div class="col-md-12">
-                                            <label for="estatus">Estatus</label>
+                                            <label for="estatus_detalle">Estatus</label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="material-icons">location_on</i></span>
-                                                <select class="form-control" id="estatus" name="estatus" required>
+                                                <select class="form-control" id="estatus_detalle" name="estatus_detalle" required>
                                                     <?php
                                                     $enumOptions = ['completado', 'pendiente', 'cancelado']; // Reemplaza con las opciones de tu ENUM
 
@@ -328,7 +316,7 @@ include 'template/header.php';
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                                <button type="submit" class="btn btn-primary">Editar Expediente</button>
                             </div>
                             </form>
                         </div>

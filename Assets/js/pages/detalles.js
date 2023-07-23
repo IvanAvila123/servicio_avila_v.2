@@ -4,7 +4,7 @@ const btnServicio = document.querySelector('#btnServicio');
 const modalRegistroServicio = document.querySelector("#modalRegistroServicio");
 const myModalRegistroServicio = new bootstrap.Modal(modalRegistroServicio);
 
-const editarModalServicio = document.querySelector("#editarModal");
+const editarModalServicio = document.querySelector("#editarModalServicio");
 const myModal2editarModalServicio = new bootstrap.Modal(editarModalServicio);
 
 document.addEventListener('DOMContentLoaded', function (){
@@ -70,4 +70,63 @@ document.addEventListener('DOMContentLoaded', function (){
             alert.remove();
         }, 3000);
     }
+
+});
+
+function editarServicio(id) {
+    const url = 'editarservicio.php?id=' + id;
+
+    fetch(url, {
+        method: 'GET'
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Verificar los datos en la consola
+
+            // Actualizar los valores en el modal de edición
+            document.querySelector('#id_cliente_editar_servicio').value = data.id;
+            document.querySelector('#editarModalServicio input[name="equipo"]').value = data.equipo;
+            document.querySelector('#editarModalServicio input[name="problema"]').value = data.problema;
+            document.querySelector('#editarModalServicio input[name="refacciones"]').value = data.refacciones;
+            document.querySelector('#editarModalServicio input[name="fecha"]').value = data.fecha;
+            document.querySelector('#editarModalServicio input[name="observacion"]').value = data.observacion;
+            document.querySelector('#editarModalServicio input[name="costo"]').value = data.costo;
+            document.querySelector('#editarModalServicio select[name="estatus_detalle"] option[value="' + data.estatus_detalle + '"]').selected = true;
+            $('#editarModalServicio').modal('show'); // Mostrar el modal utilizando jQuery
+        })
+        .catch(error => {
+            console.error(error); // Manejar cualquier error de la solicitud
+        });
+}
+
+
+// Obtener referencia al formulario de edición
+const formularioEditarServicio = document.getElementById('formularioEditarServicio');
+
+formularioEditarServicio.addEventListener('submit', function(event) {
+  event.preventDefault(); // Evitar el envío del formulario por defecto
+
+  const formData = new FormData(formularioEditarServicio);
+
+  // Enviar la solicitud de actualización al servidor
+  fetch('editarservicio.php', {
+      method: 'POST',
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log(data); // Verificar la respuesta del servidor
+
+      // Aquí puedes agregar lógica adicional para manejar la respuesta del servidor
+      // Por ejemplo, mostrar un mensaje de éxito o actualizar la página después de la actualización
+
+      // Cerrar el modal de edición
+      $('#editarModalServicio').modal('hide');
+
+      // Recargar la página
+      location.reload();
+  })
+  .catch(error => {
+      console.error(error); // Manejar cualquier error de la solicitud
+  });
 });
