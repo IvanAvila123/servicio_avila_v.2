@@ -115,7 +115,7 @@ include 'template/header.php';
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <button class="btn btn-primary shadow btn-xs sharp me-1 btnEditarServicio" data-id="<?php echo $id; ?>"><i class="fas fa-pencil-alt"></i></button>
+                                                <button class="btn btn-primary shadow btn-xs sharp me-1 btnEditarServicio" data-id="<?php echo $id_cliente; ?>"><i class="fas fa-pencil-alt"></i></button>
                                                 <button href="#" class="btn btn-danger shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $row['id']; ?>"><i class="fa fa-trash"></i></button>
                                                 <?php
 
@@ -150,7 +150,7 @@ include 'template/header.php';
                             </div>
                             <div class="modal-body">
                                 <form id="formulario_detalle" enctype="multipart/form-data" action="guardar_detalle.php" method="POST">
-                                    <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $id; ?>">
+                                    <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $id_cliente; ?>">
 
                                     <div class="row">
                                         <div class="col-md-6">
