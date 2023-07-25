@@ -1,9 +1,9 @@
 <?php
 function conectar() {
     $host = "localhost";
-    $user = "u930583714_ser_avila";
-    $pass = "Assesino_123";
-    $bd = "u930583714_servicio_avila";
+    $user = "root";
+    $pass = "";
+    $bd = "servicio_avila";
 
     $con = mysqli_connect($host, $user, $pass);
 
