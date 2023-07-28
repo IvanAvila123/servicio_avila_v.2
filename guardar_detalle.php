@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $costo = $_POST['costo'];
     $estatus_detalle = $_POST['estatus_detalle'];
 
-
     // Ruta de la carpeta donde se almacenarán los archivos PDF
     $carpetaPDFs = "pdfs/";
 
@@ -38,19 +37,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Guardar el nombre único del archivo PDF en la base de datos
         $pdf = $nombreUnico;
 
+        // Preparar la consulta SQL
         $stmt = $con->prepare("INSERT INTO detalle (equipo, problema, refacciones, fecha, observacion, costo, estatus_detalle, id_cliente, pdf) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param('sssssssss', $equipo, $problema, $refacciones, $fecha, $observacion, $costo, $estatus_detalle, $id_cliente, $pdf);
 
+        // Ejecutar la consulta
         if ($stmt->execute()) {
+            // Consulta exitosa
             $res = array('tipo' => 'success', 'mensaje' => 'Servicio registrado exitosamente');
         } else {
-            $res = array('tipo' => 'error', 'mensaje' => 'Error al registrar el Servicio');
+            // Error en la consulta
+            $res = array('tipo' => 'error', 'mensaje' => 'Error al registrar el Servicio: ' . mysqli_error($con));
         }
+    } else {
+        // Error al subir el archivo PDF
+        $res = array('tipo' => 'error', 'mensaje' => 'Error al subir el archivo PDF: ' . $_FILES['archivo_pdf']['error']);
     }
+} else {
+    // Error en la solicitud del formulario
+    $res = array('tipo' => 'error', 'mensaje' => 'Error en la solicitud del formulario');
 }
 
 echo json_encode($res, JSON_UNESCAPED_UNICODE);
 die();
 ?>
+
+
 
 

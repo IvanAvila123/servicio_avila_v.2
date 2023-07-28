@@ -29,34 +29,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $observacion = $_POST['observacion'];
     $costo = $_POST['costo'];
     $estatus_detalle = $_POST['estatus_detalle'];
-    $id_cliente = $_POST['id_cliente'];
 
-    // Manejar el archivo PDF (si se cargó uno)
-    $pdf_path = ''; // Variable para almacenar la ruta del archivo PDF en el servidor
+   // Ruta de la carpeta donde se almacenarán los archivos PDF
+   $carpetaPDFs = "pdfs/";
 
-    if ($_FILES['pdf']['error'] === UPLOAD_ERR_OK) {
-        // Obtener información del archivo PDF cargado
-        $pdf_temp = $_FILES['pdf']['tmp_name'];
-        $pdf_name = $_FILES['pdf']['name'];
+   // Verificar si la carpeta existe, de lo contrario, crearla
+   if (!is_dir($carpetaPDFs)) {
+       mkdir($carpetaPDFs, 0755, true);
+   }
 
-        // Ruta donde deseas guardar los archivos PDF en el servidor
-        $upload_dir = 'pdfs/' . $id . '/'; // Utiliza el ID del detalle como parte de la ruta
+   // Procesar el archivo PDF
+   if ($_FILES['archivo_pdf']['error'] === UPLOAD_ERR_OK) {
+       $nombreArchivo = $_FILES['archivo_pdf']['name'];
+       $archivoTemporal = $_FILES['archivo_pdf']['tmp_name'];
 
-        // Verificar si la carpeta para el detalle existe, si no, crearla
-        if (!file_exists($upload_dir)) {
-            mkdir($upload_dir, 0777, true); // El tercer parámetro "true" crea carpetas recursivamente
-        }
+       // Generar un nombre único para el archivo PDF
+       $nombreUnico = uniqid() . '_' . $nombreArchivo;
 
-        // Genera un nombre único para el archivo PDF
-        $pdf_path = $upload_dir . uniqid() . '_' . $pdf_name;
+       // Mover el archivo PDF a la carpeta
+       $rutaDestino = $carpetaPDFs . $nombreUnico;
+       move_uploaded_file($archivoTemporal, $rutaDestino);
 
-        // Mueve el archivo a la ubicación permanente en el servidor
-        move_uploaded_file($pdf_temp, $pdf_path);
+       // Guardar el nombre único del archivo PDF en la base de datos
+       $pdf = $nombreUnico;
     }
 
     // Realizar la actualización de la información del detalle en la base de datos
-    $stmt = $con->prepare("UPDATE detalle SET equipo = ?, problema = ?, refacciones = ?, fecha = ?, observacion = ?, costo = ?, pdf = ?, estatus_detalle = ?, id_cliente = ? WHERE id = ?");
-    $stmt->bind_param('ssssssssii', $equipo, $problema, $refacciones, $fecha, $observacion, $costo, $pdf_path, $estatus_detalle, $id, $id_cliente);
+    $stmt = $con->prepare("UPDATE detalle SET equipo = ?, problema = ?, refacciones = ?, fecha = ?, observacion = ?, costo = ?, pdf = ?, estatus_detalle = ? WHERE id = ?");
+    $stmt->bind_param('ssssssssi', $equipo, $problema, $refacciones, $fecha, $observacion, $costo, $pdf, $estatus_detalle, $id);
     $stmt->execute();
 
 

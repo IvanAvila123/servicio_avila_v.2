@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnEditarServicio = document.querySelectorAll('.btnEditarServicio');
     btnEditarServicio.forEach((btn) => {
         btn.addEventListener('click', () => {
-            const id_cliente = btn.getAttribute('data-id_cliente');
-            editarServicio(id_cliente); // Asegúrate de que el nombre de la función sea correcto ('editarServicio')
+            const id = btn.getAttribute('data-id');
+            editarServicio(id); // Asegúrate de que el nombre de la función sea correcto ('editarServicio')
         });
     });
 
@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-function editarServicio(id_cliente) {
-    const url = 'editarservicio.php?id_cliente=' + id_cliente;
+function editarServicio(id) {
+    const url = 'editarservicio.php?id=' + id;
 
     fetch(url, {
         method: 'GET'
@@ -95,7 +95,7 @@ function editarServicio(id_cliente) {
             console.log(data); // Verificar los datos en la consola
 
             // Actualizar los valores en el modal de edición
-            document.querySelector('#id_cliente_editar_servicio').value = data.id_cliente;
+            document.querySelector('#id_cliente_editar_servicio').value = data.id;
             document.querySelector('#editarModalServicio input[name="equipo"]').value = data.equipo;
             document.querySelector('#editarModalServicio input[name="problema"]').value = data.problema;
             document.querySelector('#editarModalServicio input[name="refacciones"]').value = data.refacciones;
@@ -143,6 +143,41 @@ formularioEditarServicio.addEventListener('submit', function (event) {
         .catch(error => {
             console.error(error); // Manejar cualquier error de la solicitud
         });
+
+
+
+        // Obtener referencia a todos los botones de eliminación
+const btnEliminarServicio = document.querySelectorAll('.btnEliminarServicio');
+
+// Iterar sobre cada botón de eliminación
+btnEliminarServicio.forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const clienteId = this.dataset.id;
+    e.preventDefault(); // Evitar el comportamiento predeterminado del botón
+
+    // Enviar la petición de eliminación utilizando AJAX
+    const url = 'eliminarservicio.php'; // URL del archivo PHP que maneja la eliminación
+    const data = new FormData();
+    data.append('id', clienteId);
+
+    fetch(url, {
+      method: 'POST',
+      body: data
+    })
+    .then(response => response.json())
+    .then(res => {
+      alertaPerzonalizada(res.tipo, res.mensaje);
+      if (res.tipo == 'success') {
+        // Eliminar el cliente de la interfaz sin recargar la página
+        this.closest('tr').remove();
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
+});
+
 });
 
 
