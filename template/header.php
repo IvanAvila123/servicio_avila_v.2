@@ -58,8 +58,8 @@
                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                     <img src="images/profile/pic1.jpg" width="20" alt="">
                     <div class="header-info ms-3">
-                        <span class="font-w600 ">Hola,<b></b></span>
-                        <small class="text-end font-w400"></small>
+                        <span class="font-w600 ">Hola,Jesus<b></b></span>
+                        <small class="text-end font-w400">Bienvenido</small>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -78,7 +78,7 @@
                     <span class="nav-text">Clientes</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="index.html">Lista De Clientes</a></li>
+                    <li><a href="index.php">Lista De Clientes</a></li>
                     <li><a href="index-2.html">Ordenes pendientes</a></li>
                     <li><a href="my-wallet.html">Inventario</a></li>
                 </ul>

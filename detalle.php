@@ -32,7 +32,7 @@ include 'template/header.php';
                 <ul class="navbar-nav header-right">
                     <li class="nav-item">
                         <div class="input-group search-area">
-                            <input type="text" class="form-control" placeholder="Buscar Expediente...">
+                            <input type="text" class="form-control light-table-filter" placeholder="Buscar Expediente..." data-table="table_id">
                             <span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
                         </div>
                     </li>
@@ -62,7 +62,7 @@ include 'template/header.php';
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover table-borderless" style="width:100%" id="tblServicio ">
+                        <table class="table table-hover table-borderless table_id" style="width:100%" id="tblServicio ">
                             <thead>
                                 <tr>
                                     <th><strong>Equipo</strong></th>

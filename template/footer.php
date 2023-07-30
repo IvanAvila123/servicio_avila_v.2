@@ -31,6 +31,8 @@
 	<script src= "Assets/js/custom.js" ></script>
 	<script src="Assets\js\pages\detalles.js"></script>	
 	<script src="Assets\js\pages\clientes.js"></script>
+	<script src="Assets\js\pages\buscador.js"></script>
+
 		
 	
 </body>
