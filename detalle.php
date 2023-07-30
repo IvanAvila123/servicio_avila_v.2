@@ -85,6 +85,7 @@ include 'template/header.php';
     WHERE clientes.id = '$id_cliente'");
                                 while ($row = mysqli_fetch_array($detalle_query)) {
                                     $id_servicio = $row['id'];
+                                    $id_eliminar = $row['id'];
                                 ?>
                                     <tr>
                                         <td class="d-flex align-items-center"><strong><?php echo $row['equipo'] ?></strong></td>
@@ -116,7 +117,7 @@ include 'template/header.php';
                                         <td>
                                             <div class="d-flex">
                                                 <button class="btn btn-primary shadow btn-xs sharp me-1 btnEditarServicio" data-id="<?php echo $id_servicio ; ?>" onclick="editarServicio(<?php echo $id_servicio; ?>)"><i class="fas fa-pencil-alt"></i></button>
-                                                <button href="#" class="btn btn-danger shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $id_servicio; ?>"><i class="fa fa-trash"></i></button>
+                                                <button href="#" class="btn btn-danger shadow btn-xs me-1 sharp btnEliminarServicio" data-id="<?php echo $id_eliminar; ?>"><i class="fa fa-trash"></i></button>
                                                 <?php
 
                                                 // Ruta de la carpeta donde se almacenan los archivos PDF

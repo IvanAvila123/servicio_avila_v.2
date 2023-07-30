@@ -61,14 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 
     if ($stmt->affected_rows > 0) {
-        $response = array('success' => 'Expediente editado exitosamente');
+        $res = array('success' => 'Expediente editado exitosamente');
     } else {
-        $response = array('error' => 'Error al editar el Expediente');
+        $res = array('error' => 'Error al editar el Expediente');
     }
 
     // Establecer la cabecera de respuesta como JSON
     header('Content-Type: application/json');
 
     // Devolver la respuesta en formato JSON
-    echo json_encode($response);
+    echo json_encode($res);
 }

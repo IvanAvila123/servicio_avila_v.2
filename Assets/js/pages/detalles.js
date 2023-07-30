@@ -29,13 +29,45 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    const btnEliminarServicio = document.querySelectorAll('.btnEliminarServicio');
+
+    // Iterar sobre cada botón de eliminación
+    btnEliminarServicio.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            console.log('Clic en el botón de eliminación');
+            const servicioId = this.dataset.id; // Cambiar a "dataset.id"
+            e.preventDefault(); // Evitar el comportamiento predeterminado del botón
+
+             // Enviar la petición de eliminación utilizando AJAX
+             const url = 'eliminarservicio.php'; // URL del archivo PHP que maneja la eliminación
+             const data = new FormData();
+             data.append('id', servicioId); // Cambiar a "data.append('id', servicioId)"
+ 
+             fetch(url, {
+                 method: 'POST',
+                 body: data
+             })
+                 .then(response => response.json())
+                 .then(res => {
+                     alertaPerzonalizada(res.tipo, res.mensaje); // Cambiar a "alertaPersonalizada"
+                     if (res.tipo == 'success') {
+                         // Eliminar el servicio de la interfaz sin recargar la página
+                         this.closest('tr').remove();
+                     }
+                 })
+                 .catch(error => {
+                     console.error('Error:', error);
+                 });
+         });
+     });
+
 
     frmDetalle.addEventListener('submit', function (event) {
         event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
         console.log('Formulario enviado');
 
         if (frmDetalle.equipo.value === '' || frmDetalle.problema.value === '' || frmDetalle.refacciones.value === '' || frmDetalle.fecha.value === '' || frmDetalle.observacion.value === '' || frmDetalle.costo.value === '' || frmDetalle.estatus_detalle.value === '') {
-            alertaPersonalizada('warning', 'Todos los campos son requeridos');
+            alertaPerzonalizada('warning', 'Todos los campos son requeridos');
         } else {
             const data = new FormData(frmDetalle);
             const url = 'guardar_detalle.php';
@@ -52,12 +84,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     const mensaje = res.mensaje;
 
                     // Mostrar la alerta personalizada
-                    alertaPersonalizada(tipo, mensaje);
+                    alertaPerzonalizada(tipo, mensaje);
 
                     if (tipo == 'success') {
                         frmDetalle.reset();
                         myModalRegistroServicio.hide();
-                        //location.reload(); // Recargar la página completa
+                        window.location.reload(); // Recargar la página completa
                     }
                 })
                 .catch(error => {
@@ -65,23 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         }
     });
-
-    function alertaPersonalizada(tipo, mensaje) {
-        // Crea un elemento de alerta
-        const alert = document.createElement('div');
-        alert.className = `alert alert-${tipo}`;
-        alert.textContent = mensaje;
-
-        // Agrega el elemento de alerta al documento
-        const container = document.querySelector('.alert-container');
-        container.appendChild(alert);
-
-        // Elimina el elemento de alerta después de 3 segundos
-        setTimeout(() => {
-            alert.remove();
-        }, 3000);
-    }
-
 });
 
 function editarServicio(id) {
@@ -90,7 +105,7 @@ function editarServicio(id) {
     fetch(url, {
         method: 'GET'
     })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
             console.log(data); // Verificar los datos en la consola
 
@@ -127,18 +142,26 @@ formularioEditarServicio.addEventListener('submit', function (event) {
         method: 'POST',
         body: formData
     })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
             console.log(data); // Verificar la respuesta del servidor
 
-            // Aquí puedes agregar lógica adicional para manejar la respuesta del servidor
-            // Por ejemplo, mostrar un mensaje de éxito o actualizar la página después de la actualización
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                alertaPerzonalizada(res.tipo, res.mensaje);
+                if (res.tipo == 'success') {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
 
-            // Cerrar el modal de edición
+                }
+
+            }
+
             $('#editarModalServicio').modal('hide');
 
             // Recargar la página
-            location.reload();
+            window.location.reload();
         })
         .catch(error => {
             console.error(error); // Manejar cualquier error de la solicitud
@@ -146,37 +169,10 @@ formularioEditarServicio.addEventListener('submit', function (event) {
 
 
 
-        // Obtener referencia a todos los botones de eliminación
-const btnEliminarServicio = document.querySelectorAll('.btnEliminarServicio');
+    
 
-// Iterar sobre cada botón de eliminación
-btnEliminarServicio.forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    const clienteId = this.dataset.id;
-    e.preventDefault(); // Evitar el comportamiento predeterminado del botón
+           
 
-    // Enviar la petición de eliminación utilizando AJAX
-    const url = 'eliminarservicio.php'; // URL del archivo PHP que maneja la eliminación
-    const data = new FormData();
-    data.append('id', clienteId);
-
-    fetch(url, {
-      method: 'POST',
-      body: data
-    })
-    .then(response => response.json())
-    .then(res => {
-      alertaPerzonalizada(res.tipo, res.mensaje);
-      if (res.tipo == 'success') {
-        // Eliminar el cliente de la interfaz sin recargar la página
-        this.closest('tr').remove();
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  });
-});
 
 });
 
