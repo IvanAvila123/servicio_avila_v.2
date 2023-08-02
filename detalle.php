@@ -152,7 +152,7 @@ include 'template/header.php';
                             <div class="modal-body">
                                 <form id="formulario_detalle" enctype="multipart/form-data" action="guardar_detalle.php" method="POST">
 
-                                <input type="text" id="id_cliente" name="id_cliente" value="<?php echo $id_cliente; ?>">
+                                <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $id_cliente; ?>">
                                            
                                     <div class="row">
                                         <div class="col-md-6">
