@@ -32,6 +32,8 @@ $query = mysqli_query($con, $sql);
                         </div>
                     </li>
 
+                    
+
                     <li class="nav-item">
                         <a href="javascript:void(0);" class="btn btn-primary d-sm-inline-block d-none">Generar Excel<i class="las la-signal ms-3 scale5"></i></a>
                     </li>
@@ -110,6 +112,7 @@ $query = mysqli_query($con, $sql);
                                 <?php
                                 while ($row = mysqli_fetch_array($query)) {
                                 ?>
+                                <tr>
                                     <td><?php echo $row['nombre'] ?></td>
                                     <td><?php echo $row['apellido'] ?></td>
                                     <td><?php echo $row['telefono'] ?></td>
@@ -140,6 +143,7 @@ $query = mysqli_query($con, $sql);
                                             <a href="detalle.php?id=<?php echo $row['id']; ?>" class="btn btn-primary shadow btn-xs me-1 sharp" data-id="<?php echo $row['id']; ?>"><i class="fas fa-eye"></i></a>
                                         </div>
                                     </td>
+                                </tr>
                             </tbody>
                         <?php } ?>
                         </table>
@@ -147,7 +151,7 @@ $query = mysqli_query($con, $sql);
                 </div>
             </div>
         </div>
-
+        <div id="paginador" class=""></div>                                
     </div>
 </div>
 
