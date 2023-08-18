@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res = array('tipo' => 'success', 'mensaje' => 'Servicio registrado exitosamente');
         } else {
             // Error en la consulta
-            $res = array('tipo' => 'error', 'mensaje' => 'Error al registrar el Servicio: ' . mysqli_error($con));
+            $res = array('tipo' => 'error', 'mensaje' => 'Error al registrar el Servicio: ' . $stmt->error);
         }
     } else {
         // Error al subir el archivo PDF
@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 echo json_encode($res, JSON_UNESCAPED_UNICODE);
 die();
 ?>
+
 
 
 

@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (res.tipo == 'success') {
                     frm.reset();
                     myModal.hide();
-                    //location.reload(); // Recargar la página completa
+                    window.location.reload(); // Recargar la página completa
                 }
             })
             .catch(error => {
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch(url, {
         method: 'GET'
     })
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
             console.log(data); // Verificar los datos en la consola
 
@@ -93,7 +93,7 @@ formularioEditar.addEventListener('submit', function(event) {
       method: 'POST',
       body: formData
   })
-  .then(response => response.json())
+  .then(res => res.json())
   .then(data => {
       console.log(data); // Verificar la respuesta del servidor
 
@@ -144,7 +144,7 @@ btnEliminar.forEach(btn => {
       method: 'POST',
       body: data
     })
-    .then(response => response.json())
+    .then(res => res.json())
     .then(res => {
       alertaPerzonalizada(res.tipo, res.mensaje);
       if (res.tipo == 'success') {

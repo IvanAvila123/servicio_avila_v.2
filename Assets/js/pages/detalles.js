@@ -15,10 +15,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnServicio.addEventListener('click', function () {
         title.textContent = "Nuevo Servicio"
-        frmDetalle.id_cliente.value = '';
-        frmDetalle.removeAttribute('readonly');
-        frmDetalle.reset();
-        myModalRegistroServicio.show();
+        const idClienteValue = frmDetalle.id_cliente.value;
+    console.log("Valor de id_cliente antes de abrir el modal:", idClienteValue);
+
+    frmDetalle.removeAttribute('readonly');
+    frmDetalle.reset();
+    myModalRegistroServicio.show();
     })
 
     const btnEditarServicio = document.querySelectorAll('.btnEditarServicio');
@@ -66,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
         console.log('Formulario enviado');
 
-        if (frmDetalle.equipo.value === '' || frmDetalle.problema.value === '' || frmDetalle.refacciones.value === '' || frmDetalle.fecha.value === '' || frmDetalle.observacion.value === '' || frmDetalle.costo.value === '' || frmDetalle.estatus_detalle.value === '') {
+        if (frmDetalle.equipo.value === '' || frmDetalle.problema.value === '' || frmDetalle.refacciones.value === '' || frmDetalle.fecha.value === '' || frmDetalle.observacion.value === '' || frmDetalle.costo.value === '' || frmDetalle.estatus_detalle.value === '' || frmDetalle.id_cliente.value === '' ) {
             alertaPerzonalizada('warning', 'Todos los campos son requeridos');
         } else {
             const data = new FormData(frmDetalle);

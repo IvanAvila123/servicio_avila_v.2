@@ -14,12 +14,12 @@ $estatus = $_POST['estatus'];
 $stmt = $con->prepare("INSERT INTO clientes (nombre, apellido, telefono, domicilio ,estatus) VALUES (?, ?, ?, ?, ?)");
 $stmt->bind_param('sssss', $nombre, $apellido, $telefono, $domicilio, $estatus);
 if ($stmt->execute()) {
-    $response = array('tipo' => 'success', 'mensaje' => 'Cliente registrado exitosamente');
+    $res = array('tipo' => 'success', 'mensaje' => 'Cliente registrado exitosamente');
 } else {
-    $response = array('tipo' => 'error', 'mensaje' => 'Error al registrar el cliente');
+    $res = array('tipo' => 'error', 'mensaje' => 'Error al registrar el cliente');
 }
 
 // Devolver la respuesta en formato JSON
-echo json_encode($response);
+echo json_encode($res);
 ?>
 

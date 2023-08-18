@@ -86,6 +86,7 @@ include 'template/header.php';
                                 while ($row = mysqli_fetch_array($detalle_query)) {
                                     $id_servicio = $row['id'];
                                     $id_eliminar = $row['id'];
+                                    $id_clientes = $row['id_cliente'];
                                 ?>
                                     <tr>
                                         <td class="d-flex align-items-center"><strong><?php echo $row['equipo'] ?></strong></td>
@@ -151,8 +152,8 @@ include 'template/header.php';
                             </div>
                             <div class="modal-body">
                                 <form id="formulario_detalle" enctype="multipart/form-data" action="guardar_detalle.php" method="POST">
-
-                                <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $id_cliente; ?>">
+                                 
+                                <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo htmlspecialchars($id_clientes); ?>">
                                            
                                     <div class="row">
                                         <div class="col-md-6">
